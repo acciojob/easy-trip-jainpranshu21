@@ -5,6 +5,7 @@ import com.driver.model.Airport;
 import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
+import com.driver.services.AirportService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,13 +17,15 @@ import java.util.Objects;
 
 @RestController
 public class AirportController {
+
+    AirportService airportService=new AirportService();
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport){
 
         //Simply add airport details to your database
         //Return a String message "SUCCESS"
 
-        return "SUCCESS";
+        return airportService.addAirport(airport);
     }
 
     @GetMapping("/get-largest-aiport")
@@ -31,7 +34,7 @@ public class AirportController {
         //Largest airport is in terms of terminals. 3 terminal airport is larger than 2 terminal airport
         //Incase of a tie return the Lexicographically smallest airportName
 
-       return null;
+       return airportService.getLargestAirportName();
     }
 
     @GetMapping("/get-shortest-time-travel-between-cities")
@@ -40,7 +43,7 @@ public class AirportController {
         //Find the duration by finding the shortest flight that connects these 2 cities directly
         //If there is no direct flight between 2 cities return -1.
 
-       return 0;
+       return airportService.getShortestDurationOfPossibleBetweenTwoCities(fromCity, toCity);
     }
 
     @GetMapping("/get-number-of-people-on-airport-on/{date}")
@@ -99,7 +102,7 @@ public class AirportController {
     public String addFlight(@RequestBody Flight flight){
 
         //Return a "SUCCESS" message string after adding a flight.
-       return null;
+       return airportService.addFlight(flight);
     }
 
 
@@ -131,7 +134,7 @@ public class AirportController {
         //Add a passenger to the database
         //And return a "SUCCESS" message if the passenger has been added successfully.
 
-       return null;
+       return airportService.addPassenger(passenger);
     }
 
 
