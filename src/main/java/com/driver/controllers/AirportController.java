@@ -63,7 +63,7 @@ public class AirportController {
         //Suppose if 2 people have booked the flight already : the price of flight for the third person will be 3000 + 2*50 = 3100
         //This will not include the current person who is trying to book, he might also be just checking price
 
-       return 0;
+       return airportService.calculateFlightFare(flightId);
 
     }
 
@@ -76,7 +76,7 @@ public class AirportController {
         //Also if the passenger has already booked a flight then also return "FAILURE".
         //else if you are able to book a ticket then return "SUCCESS"
 
-        return null;
+        return airportService.bookATicket(flightId,passengerId);
     }
 
     @PutMapping("/cancel-a-ticket")
@@ -87,7 +87,7 @@ public class AirportController {
         // Otherwise return a "SUCCESS" message
         // and also cancel the ticket that passenger had booked earlier on the given flightId
 
-       return null;
+       return airportService.cancelATicket(flightId,passengerId);
     }
 
 
@@ -95,7 +95,7 @@ public class AirportController {
     public int countOfBookingsDoneByPassengerAllCombined(@PathVariable("passengerId")Integer passengerId){
 
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
-       return 0;
+       return airportService.countOfBookingsDoneByPassengerAllCombined(passengerId);
     }
 
     @PostMapping("/add-flight")
@@ -112,7 +112,7 @@ public class AirportController {
         //We need to get the starting airportName from where the flight will be taking off (Hint think of City variable if that can be of some use)
         //return null incase the flightId is invalid or you are not able to find the airportName
 
-        return null;
+        return airportService.getAirportNameFromFlightId(flightId);
     }
 
 

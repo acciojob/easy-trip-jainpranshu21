@@ -5,12 +5,13 @@ import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
 import com.driver.repositories.AirportRepositories;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
-
+@Service
 public class AirportService {
 
     AirportRepositories airportRepositories=new AirportRepositories();
@@ -73,10 +74,45 @@ public class AirportService {
         for(Flight flight:flights){
             if(flight.getFlightDate()==date){
                 if(flight.getToCity().equals(city) || flight.getFromCity().equals(city)){
-                    noOfPassengers+=flight.getMaxCapacity();
+                    noOfPassengers+=airportRepositories.getNumberOfPeopleOn(flight.getFlightId());
                 }
             }
         }
         return noOfPassengers;
+    }
+
+
+    public String bookATicket(int flightId,int passengerId){
+        return airportRepositories.bookATicket(flightId,passengerId);
+    }
+
+    public int calculateFlightFare(int flightId){
+        return airportRepositories.calculateFlightFare(flightId);
+    }
+
+    public String cancelATicket(int flightId,int passengerId){
+        return airportRepositories.cancelATicket(flightId,passengerId);
+    }
+
+    public int countOfBookingsDoneByPassengerAllCombined(int passengerId){
+        return airportRepositories.countOfBookingsDoneByPassengerAllCombined(passengerId);
+    }
+
+    public String getAirportNameFromFlightId(int flightId){
+        String name="";
+        City city=City.BANGLORE;
+        List<Flight>flights=airportRepositories.getShortestDurationOfPossibleBetweenTwoCities();
+        for(Flight flight:flights){
+            if(flight.getFlightId()==flightId){
+                city=flight.getFromCity();
+            }
+        }
+        List<Airport>airports=airportRepositories.getLargestAirportName();
+        for(Airport airport:airports){
+            if(airport.getCity().equals(city)){
+                name=airport.getAirportName();
+            }
+        }
+        return name;
     }
 }

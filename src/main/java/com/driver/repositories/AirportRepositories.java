@@ -3,17 +3,19 @@ package com.driver.repositories;
 import com.driver.model.Airport;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Repository
 public class AirportRepositories {
     Map<String, Airport>airportDb=new HashMap<>();
     Map<Integer, Flight>flightDb=new HashMap<>();
     Map<Integer, Passenger>passengerDb=new HashMap<>();
+    Map<Integer,List<Integer>>flightPassengerDb=new HashMap<>();
     public String addAirport(Airport airport){
         String name=airport.getAirportName();
         airportDb.put(name,airport);
@@ -47,4 +49,93 @@ public class AirportRepositories {
         }
         return flights;
     }
+
+    public String bookATicket(int flightId,int passengerId){
+        if(!flightPassengerDb.containsKey(flightId))
+       flightPassengerDb.put(flightId,new ArrayList<>());
+       int capacity=0;
+       for(int id:flightDb.keySet()){
+           if(id==flightId)
+           {
+               Flight flight=flightDb.get(id);
+               capacity=flight.getMaxCapacity();
+           }
+       }
+        int passengers=0;
+       boolean check=false;
+       for(int id:flightPassengerDb.keySet()){
+           if(id==flightId){
+               passengers=flightPassengerDb.get(id).size();
+               List<Integer>p=flightPassengerDb.get(id);
+               for(int i:p){
+                   if(i==passengerId)check=true;
+               }
+           }
+       }
+
+       if(passengers>capacity || check==true)
+           return "FAILURE";
+
+       for(int id:flightPassengerDb.keySet()){
+           if(id==flightId){
+               List<Integer>Passenger=flightPassengerDb.get(id);
+               Passenger.add(passengerId);
+               flightPassengerDb.put(flightId,Passenger);
+           }
+       }
+
+       return "SUCCESS";
+    }
+
+     public int getNumberOfPeopleOn(int flightId){
+        int peopleOnDate=0;
+        for(int id:flightPassengerDb.keySet()){
+            if(id==flightId){
+                peopleOnDate=flightPassengerDb.get(id).size();
+            }
+        }
+        return peopleOnDate;
+     }
+
+    public int calculateFlightFare(int flightId){
+        int fare=0;
+        for(int id:flightPassengerDb.keySet()){
+            if(id==flightId){
+                fare=3000+50*(flightPassengerDb.get(id).size());
+            }
+        }
+        return fare;
+    }
+
+    public String cancelATicket(int flightId,int passengerId){
+        boolean check=false;
+      for(int id:flightPassengerDb.keySet()){
+          if(id==flightId){
+              List<Integer>passengers=flightPassengerDb.get(id);
+              for(int p:passengers){
+                  if(p==passengerId) {
+                      passengers.remove(p);
+                      check=true;
+                  }
+              }
+              flightPassengerDb.put(id,passengers);
+          }
+      }
+      if(check)return "SUCCESS";
+      return "FAILURE";
+    }
+
+    public int countOfBookingsDoneByPassengerAllCombined(int passengerId){
+        int count=0;
+        for(List<Integer> p:flightPassengerDb.values()){
+            for(int id:p){
+               if(id==passengerId)
+                   count++;
+            }
+        }
+        return count;
+    }
+
+
+
 }
