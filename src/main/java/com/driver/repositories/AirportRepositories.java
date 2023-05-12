@@ -136,6 +136,13 @@ public class AirportRepositories {
         return count;
     }
 
-
+    public int calculateRevenueOfAFlight(int flightId){
+        int people=0;
+        for(int id:flightPassengerDb.keySet()){
+            if(id==flightId)
+                people=flightPassengerDb.get(id).size();
+        }
+        return people;
+    }
 
 }

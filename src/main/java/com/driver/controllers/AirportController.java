@@ -124,7 +124,7 @@ public class AirportController {
         //Revenue will also decrease if some passenger cancels the flight
 
 
-        return 0;
+        return airportService.calculateRevenueOfAFlight(flightId);
     }
 
 

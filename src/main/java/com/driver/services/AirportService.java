@@ -118,4 +118,10 @@ public class AirportService {
         }
         return name;
     }
+
+    public int calculateRevenueOfAFlight(int flightId){
+        int revenue=0;
+        revenue=airportRepositories.calculateRevenueOfAFlight(flightId)*1000;
+        return revenue;
+    }
 }
