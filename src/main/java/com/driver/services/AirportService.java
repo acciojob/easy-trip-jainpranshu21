@@ -74,7 +74,7 @@ public class AirportService {
         for(Flight flight:flights){
             if(flight.getFlightDate()==date){
                 if(flight.getToCity().equals(city) || flight.getFromCity().equals(city)){
-                    noOfPassengers+=airportRepositories.getNumberOfPeopleOn(flight.getFlightId());
+                    noOfPassengers+= flight.getMaxCapacity();
                 }
             }
         }
