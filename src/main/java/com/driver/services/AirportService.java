@@ -100,13 +100,16 @@ public class AirportService {
 
     public String getAirportNameFromFlightId(int flightId){
         String name="";
+        boolean check=false;
         City city=City.BANGLORE;
         List<Flight>flights=airportRepositories.getShortestDurationOfPossibleBetweenTwoCities();
         for(Flight flight:flights){
             if(flight.getFlightId()==flightId){
                 city=flight.getFromCity();
+                check=true;
             }
         }
+        if(check==false)return null;
         List<Airport>airports=airportRepositories.getLargestAirportName();
         for(Airport airport:airports){
             if(airport.getCity().equals(city)){
