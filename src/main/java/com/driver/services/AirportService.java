@@ -121,7 +121,7 @@ public class AirportService {
 
     public int calculateRevenueOfAFlight(int flightId){
         int revenue=0;
-        revenue=airportRepositories.calculateRevenueOfAFlight(flightId)*1000;
+        revenue=airportRepositories.calculateRevenueOfAFlight(flightId)*3000;
         return revenue;
     }
 }
