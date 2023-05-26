@@ -66,9 +66,10 @@ public class AirportService {
         List<Airport>airports=airportRepositories.getLargestAirportName();
         City city=City.BANGLORE;
         for(Airport airport:airports){
-            if(airport.getAirportName().equals(airportName))
-                city=airport.getCity();
-
+            if(airport.getAirportName().equals(airportName)) {
+                city = airport.getCity();
+                System.out.println("inside if");
+            }
         }
         List<Flight>flights=airportRepositories.getShortestDurationOfPossibleBetweenTwoCities();
         for(Flight flight:flights){

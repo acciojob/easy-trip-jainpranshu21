@@ -54,35 +54,25 @@ public class AirportRepositories {
         if(!flightPassengerDb.containsKey(flightId))
        flightPassengerDb.put(flightId,new ArrayList<>());
        int capacity=0;
-       for(int id:flightDb.keySet()){
-           if(id==flightId)
-           {
-               Flight flight=flightDb.get(id);
-               capacity=flight.getMaxCapacity();
-           }
-       }
+
+               Flight flight=flightDb.get(flightId);
+               capacity=flightDb.get(flightId).getMaxCapacity();
+
         int passengers=0;
        boolean check=false;
-       for(int id:flightPassengerDb.keySet()){
-           if(id==flightId){
-               passengers=flightPassengerDb.get(id).size();
-               List<Integer>p=flightPassengerDb.get(id);
-               for(int i:p){
-                   if(i==passengerId)check=true;
+
+               passengers=flightPassengerDb.get(flightId).size();
+               List<Integer>p=flightPassengerDb.get(flightId);
+               for(int i:p) {
+                   if (i == passengerId) check = true;
                }
-           }
-       }
 
        if(passengers>capacity || check==true)
            return "FAILURE";
 
-       for(int id:flightPassengerDb.keySet()){
-           if(id==flightId){
-               List<Integer>Passenger=flightPassengerDb.get(id);
-               Passenger.add(passengerId);
-               flightPassengerDb.put(flightId,Passenger);
-           }
-       }
+
+               p.add(passengerId);
+               flightPassengerDb.put(flightId,p);
 
        return "SUCCESS";
     }

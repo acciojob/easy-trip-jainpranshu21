@@ -19,7 +19,7 @@ import java.util.Objects;
 public class AirportController {
 
     AirportService airportService=new AirportService();
-    @PostMapping("/add_airport")
+    @PostMapping("/add-airport")
     public String addAirport(@RequestBody Airport airport){
 
         //Simply add airport details to your database
@@ -28,7 +28,7 @@ public class AirportController {
         return airportService.addAirport(airport);
     }
 
-    @GetMapping("/get-largest-aiport")
+    @GetMapping("/get-largest-airport")
     public String getLargestAirportName(){
 
         //Largest airport is in terms of terminals. 3 terminal airport is larger than 2 terminal airport
@@ -51,7 +51,7 @@ public class AirportController {
 
         //Calculate the total number of people who have flights on that day on a particular airport
         //This includes both the people who have come for a flight and who have landed on an airport after their flight
-
+        System.out.println("date"+ date+" airport"+ airportName);
         return airportService.getNumberOfPeopleOn(date,airportName);
     }
 
@@ -106,7 +106,7 @@ public class AirportController {
     }
 
 
-    @GetMapping("/get-aiportName-from-flight-takeoff/{flightId}")
+    @GetMapping("/get-airportName-from-flight-takeoff/{flightId}")
     public String getAirportNameFromFlightId(@PathVariable("flightId")Integer flightId){
 
         //We need to get the starting airportName from where the flight will be taking off (Hint think of City variable if that can be of some use)
