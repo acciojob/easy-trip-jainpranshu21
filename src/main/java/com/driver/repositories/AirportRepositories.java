@@ -78,13 +78,13 @@ public class AirportRepositories {
     }
 
      public int getNumberOfPeopleOn(int flightId){
-        int peopleOnDate=0;
+        int people=0;
         for(int id:flightPassengerDb.keySet()){
             if(id==flightId){
-                peopleOnDate=flightPassengerDb.get(id).size();
+                people=flightPassengerDb.get(id).size();
             }
         }
-        return peopleOnDate;
+        return people;
      }
 
     public int calculateFlightFare(int flightId){
